@@ -1,0 +1,28 @@
+{% extends 'chat/base.html' %}
+
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block chat_body_block %}
+	<div class = "container" id = "id_chat_container">
+		<div class = "row h-100">
+			<div class = "col col-xl-3 col-lg-4 col-md-5 d-md-block d-none h-100">
+				<div class = "card shadow h-75">
+					<div class = "card-header">
+						<input class = "form-control" type = "text" placeholder = "Search User" id = "id_s_username"
+							oninput = "trigger_search_username(this)"
+						></input>
+					</div>
+					<div class = "card-body overflow-auto d-none" id = "id_user_search_box">
+					</div>
+					<div class = "card-body overflow-auto" id = "id_user_chat_box">
+					</div>
+				</div>
+			</div>
+			<div class = "col">
+			</div>
+		</div>
+	</div>
+
+	<script type = "text/javascript" src = "{% static 'chat/js/chat_events.js' %}"></script>
+{% endblock %}

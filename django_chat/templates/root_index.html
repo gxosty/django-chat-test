@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+
+{% load bootstrap_icons %}
+
+
+
+{% block head_block %}
+	<title>Django-Chat</title>
+{% endblock %}
+
+
+
+{% block body_block %}
+
+	<div class = "container">
+		<div class = "row">
+			<div class = "col">
+				<div class = "card shadow p-1">
+					<div class = "card-body">
+						<div class = "container">
+							<div class = "row">
+								<div class = "col">
+									<h3>Welcome to Django-Chat</h3>
+									<p>{% lorem 50 w %}</p>
+								</div>
+								<div class = "col-12 d-flex flex-column flex-wrap col-sm-6">
+									<div class = "my-3 my-sm-auto">
+										<h6 class = " text-center text-secondary">To use our service, please login or signup!</h6>
+										<a href = "{% url 'account:login' %}" class = "btn btn-primary btn-block w-100 my-1"><span>{% bs_icon "box-arrow-in-right" %}</span> Login</a>
+										<a href = "{% url 'account:signup' %}" class = "btn btn-primary btn-block w-100 my-1"><span>{% bs_icon "plus-circle" %}</span> Sign up</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

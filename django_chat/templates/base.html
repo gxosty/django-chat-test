@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+{% load bootstrap_icons %}
+
+<head>
+	{% load static %}
+	<link rel = "stylesheet" href = "{% static 'bootstrap_v5/css/bootstrap.min.css' %}" type = "text/css"/>
+	<script src = "{% static 'bootstrap_v5/js/bootstrap.bundle.min.js' %}"></script>
+	<script src = "{{JQUERY_URL}}"></script>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	{% block head_block %}{% endblock %}
+
+</head>
+
+<body
+	{% if user.is_authenticated %}
+		{% if user.dark_theme %}
+			data-bs-theme = "dark"
+		{% endif %}
+	{% endif %}
+>
+	<div class = "container">
+		<div class = "row py-3">
+			<div class = "col">
+				<a href = "{% url 'root_index' %}" class = "text-decoration-none h1">Django-Chat</a>
+
+				<div class = "float-end align-items-center">
+					{% if user.is_authenticated %}
+					<div class = "input-group">
+						<a class = "input-group-text btn btn-outline-secondary" href = "{% url 'account:profile' %}"><img style = "width: 28px" class = "me-1 rounded-circle" src = {{user.user_image.url}}/>{{user.username}}</a>
+						<a href = "{% url 'account:logout' %}" class = "btn btn-outline-secondary">{% bs_icon "box-arrow-right" %}</a>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% block body_block %}{% endblock %}
+</body>
+
+</html>

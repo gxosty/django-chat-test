@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_icons %}
+{% load static %}
+
+{% block head_block %}
+	<title>Verify Email</title>
+{% endblock %}
+
+{% block body_block %}
+	<div class = "container">
+		<div class = "row justify-content-center">
+			<div class = "col col-xl-4 col-lg-6 col-md-8 col-sm-10">
+				<div class = "card shadow">
+					<div class = "card-body mt-3 px-5">
+						<h3 class = "text-center">Verification</h3>
+						<p class = "text-center">Verification code was sent to <strong>{{user.email}}</strong>. Please write 5-character code here.</p>
+						<form class = "form" action = "{% url 'account:verify_email' %}" method = "post">
+							{% csrf_token %}
+							<div class = "input-group my-3">
+								<span class = "input-group-text">{% bs_icon "key" %}</span>
+								<input class = "form-control" type = "text" name = "email_code" placeholder = "X-X-X-X-X" oninput="this.value = this.value.toUpperCase()"></input>
+							</div>
+
+							{% for message in messages %}
+								<p class = "bg-warning px-2 text-secondary">{{message}}</p>
+							{% endfor %}
+
+							<input class = "btn btn-primary w-100 my-2" type = "submit" value = "Verify"></input>
+						</form>
+					</div>
+					<div class = "card-footer">
+						<p class = "text-center">Didn't get any code? <a href = "{% url 'account:send_verification_code' %}" class = "text-decoration-none" id = "resend_a">Resend</a><span id = "resend_evc" value = "{% if retry_seconds_left %}{{retry_seconds_left}}{% endif %}"></span> code</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src = "{% static 'custom_statics/js/email_verification_code_timeout.js' %}"></script>
+{% endblock %}
