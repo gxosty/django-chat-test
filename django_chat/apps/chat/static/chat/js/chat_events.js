@@ -36,6 +36,8 @@ function on_search_username_success(response) {
 			user_btn.classList.add("text-start");
 			user_btn.classList.add("w-100");
 			user_btn.style.height = "40px";
+			user_btn.setAttribute("onclick", 'get_messages(this.value, "userid")');
+			user_btn.setAttribute("value", json_data.users[i].userid);
 
 			user_image.setAttribute("src", json_data.users[i].userimage);
 			user_image.classList.add("img-fluid");
@@ -113,6 +115,8 @@ function create_chat_button(chat_data) {
 	user_btn.classList.add("align-items-center");
 	user_btn.style.height = "56px";
 	user_btn.id = "id_chat_" + String(chat_data.chat_id);
+	user_btn.setAttribute("onclick", 'get_messages(this.value, "chat_id")');
+	user_btn.setAttribute("value", chat_data.chat_id);
 
 	user_image.setAttribute("src", chat_data.userimage);
 	user_image.classList.add("img-fluid");
@@ -129,7 +133,6 @@ function create_chat_button(chat_data) {
 	last_message.classList.add("text-muted");
 	last_message.classList.add("lh-1");
 	last_message.classList.add("my-0");
-	// last_message.classList.add("text-truncate");
 	last_message.style.fontSize = "0.8em";
 
 	user_btn.appendChild(user_image);
@@ -174,7 +177,7 @@ function on_get_chats_success(response) {
 }
 
 function on_get_chats_fail(__err, __1, __2) {
-	get_chats_fail("Networking Error!");
+	get_chats_fail("Network Error!");
 }
 
 function get_chats() {
@@ -184,6 +187,36 @@ function get_chats() {
 
 		success: on_get_chats_success,
 		error: on_get_chats_fail
+	});
+}
+
+function get_messages_fail(msg = "No Messages Yet") {
+	console.log("get_messages error");
+}
+
+function get_messages_success() {
+
+}
+
+function on_get_messages_fail(__err, __1, __2) {
+	get_messages_fail("Network Error!")
+}
+
+function on_get_messages_success(response) {
+	console.log(response);
+}
+
+function get_messages(__value, __key) {
+	__data = {};
+	__data[__key] = __value;
+
+	$.ajax({
+		url: "/chat/get_messages",
+		type: "POST",
+		data: __data,
+
+		success: on_get_messages_success,
+		error: on_get_messages_fail,
 	});
 }
 
