@@ -6,7 +6,7 @@
 {% block chat_body_block %}
 	<div class = "container" id = "id_chat_container">
 		<div class = "row h-100">
-			<div class = "col col-xl-3 col-lg-4 col-md-5 d-md-block d-none h-100">
+			<div class = "col col-xl-3 col-lg-4 col-md-5 d-md-block d-none h-100" id = "id_chat_list">
 				<div class = "card shadow h-75">
 					<div class = "card-header">
 						<input class = "form-control" type = "text" placeholder = "Search User" id = "id_s_username"
@@ -20,6 +20,23 @@
 				</div>
 			</div>
 			<div class = "col">
+				<div class = "container h-100 d-flex flex-column">
+					<div class = "row flex-fill align-items-end" style = "height: 1px; overflow-y: auto" id = "id_messages_scroll">
+						<div class = "col">
+							<div class = "overflow-auto" id = "id_messages" value = "{{ user.id }}">
+
+							</div>
+						</div>
+					</div>
+					<div class = "row my-3 mb-5">
+						<div class = "col w-100">
+							<div class = "input-group d-none" id = "id_message_input">
+								<input class = "form-control" type = "text"></input>
+								<button class = "input-group-button btn btn-primary" onclick = "send_message_from_input()">{% bs_icon "send" %}</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -48,6 +48,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,6 +75,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+
 ROOT_URLCONF = 'django_chat.urls'
 
 TEMPLATES = [
@@ -96,7 +103,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_chat.wsgi.application'
+# WSGI_APPLICATION = 'django_chat.wsgi.application'
+ASGI_APPLICATION = 'django_chat.asgi.application'
 
 
 # Database

@@ -25,7 +25,12 @@
 	<div class = "container">
 		<div class = "row py-3">
 			<div class = "col">
-				<a href = "{% url 'root_index' %}" class = "text-decoration-none h1">Django-Chat</a>
+				{% if user.is_authenticated %}
+					<a href = "{% url 'root_index' %}" class = "text-decoration-none h1 d-none d-sm-inline">Django-Chat</a>
+					<button class = "btn btn-outline-secondary d-sm-none d-inline" onclick = "toggle_chat_list()">{% bs_icon "list" %}</button>
+				{% else %}
+					<a href = "{% url 'root_index' %}" class = "text-decoration-none h1 d-sm-inline">Django-Chat</a>
+				{% endif %}
 
 				<div class = "float-end align-items-center">
 					{% if user.is_authenticated %}
@@ -33,6 +38,7 @@
 						<a class = "input-group-text btn btn-outline-secondary" href = "{% url 'account:profile' %}"><img style = "width: 28px" class = "me-1 rounded-circle" src = {{user.user_image.url}}/>{{user.username}}</a>
 						<a href = "{% url 'account:logout' %}" class = "btn btn-outline-secondary">{% bs_icon "box-arrow-right" %}</a>
 					</div>
+					<input type = "hidden" value = "{{user.username}}" id = "id_current_username"></input>
 					{% endif %}
 				</div>
 			</div>

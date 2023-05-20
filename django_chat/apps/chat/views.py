@@ -92,6 +92,7 @@ def get_messages(request):
 	response_data = {
 		"result" : "",
 		"messages" : [],
+		"chat_id" : 0,
 		"first_created" : False
 	}
 
@@ -99,6 +100,8 @@ def get_messages(request):
 
 	user_id = request.POST.get("userid", None)
 	chat_id = request.POST.get("chat_id", None)
+	offset  = request.POST.get("offset", 0)
+	count   = request.POST.get("count", 30)
 
 	privatechat = None
 	if user_id:
@@ -133,16 +136,20 @@ def get_messages(request):
 		return HttpResponse(json.dumps(response_data))
 
 	msgs = []
+	response_data["chat_id"] = privatechat.id
 	try:
-		msgs = privatechat.chatmessage_set.order_by("-sent_date")
+		msgs = privatechat.chatmessage_set.order_by("sent_date")
+		msgs_count = len(msgs)
+		msgs = msgs[max(msgs_count - offset - count) : max(msgs_count - offset, 0)]
 	except:
 		pass
 
 	for msg in msgs:
 		msg_data = {
-			"sent_date" : msg.sent_date,
+			"sent_date" : msg.sent_date.timestamp(),
 			"text" : msg.text,
-			"sender" : msg.sender.id
+			"sender" : msg.sender.id,
+			"sender_name" : msg.sender.username
 		}
 
 		response_data["messages"].append(msg_data)
@@ -174,15 +181,18 @@ def get_chats(request):
 		user = rel.get_other_user(request.user.username)
 		last_message = rel.privatechat.get_last_message()
 		last_message_text = ""
+		last_message_sender_id = -1
 
 		if last_message:
 			last_message_text = last_message.text
+			last_message_sender_id = last_message.sender.id
 
 		user_data = {
 			"username" : user.username,
 			"userimage" : user.user_image.url,
 			"is_friend" : rel.rel == "friend",
 			"chat_id" : rel.privatechat.id,
+			"sender_id" : last_message_sender_id,
 			"last_message" : last_message_text
 		}
 

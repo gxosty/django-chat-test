@@ -34,6 +34,6 @@ class EmailVerificator:
 				print('[EV] Sent email to:', email)
 				retries = 0
 			except:
-				retried -= 1
+				retries -= 1
 				print('[EV] Retrying...')
 				self.login()
